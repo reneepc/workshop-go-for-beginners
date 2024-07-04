@@ -1,16 +1,17 @@
 package main
 
 import (
+	"fmt"
 	"log"
 )
 
 func main() {
-	userCsvFile := "data/users.csv"
-	numberOfWinners := 3
+	userCsvFile := "data/large_users_unfair.csv"
+	numberOfWinners := 6
 
 	records, err := ParseCsvFile(userCsvFile)
 	if err != nil {
-		log.Fatalf("Error parsing csv: %v", err)
+		log.Fatalf("Error parsing CSV file: %v", err)
 	}
 
 	if len(records) <= 1 {
@@ -27,6 +28,6 @@ func main() {
 	}
 
 	for _, winner := range winners {
-		log.Printf("Winner: %v", winner)
+		fmt.Printf("Winner: %s\n", winner)
 	}
 }

@@ -2,7 +2,7 @@ const faker = require('faker-br');
 const fs = require('fs');
 
 const numRecords = 10000;
-const outputPath = '../data/large_users.csv';
+const outputPath = 'data/large_users.csv';
 
 const headers = 'Email,Name,Telephone,CPF,Address\n';
 
