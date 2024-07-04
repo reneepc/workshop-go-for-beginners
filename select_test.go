@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"slices"
 	"testing"
 )
@@ -129,6 +130,50 @@ func TestSelectRandomEntriesAlt(t *testing.T) {
 		_, err := SelectRandomEntries_Alt(records, len(records)+1)
 		if err == nil {
 			t.Fatalf("Expected error for number of winners greater than number of records, but got nil")
+		}
+	})
+}
+
+func FuzzSelectRandomEntriesAlt(f *testing.F) {
+	initialRecords := [][]string{
+		{"Renê Cardozo", "rene.epcrdz@gmail.com"},
+		{"Maria Silva", "maria.silva@example.com"},
+		{"João Souza", "joao.souza@example.com"},
+		{"Ana Pereira", "ana.pereira@example.com"},
+		{"Carlos Lima", "carlos.lima@example.com"},
+	}
+	initialData, _ := json.Marshal(initialRecords)
+	f.Add(string(initialData), 3)
+
+	f.Fuzz(func(t *testing.T, recordsJSON string, numberOfWinners int) {
+		var records [][]string
+		if err := json.Unmarshal([]byte(recordsJSON), &records); err != nil {
+			return
+		}
+		if len(records) == 0 {
+			return
+		}
+
+		winners, err := SelectRandomEntries(records, numberOfWinners)
+
+		if numberOfWinners < 0 || numberOfWinners > len(records) {
+			if err == nil {
+				t.Errorf("Expected error for invalid number of winners, but got nil")
+			}
+		} else {
+			if err != nil {
+				t.Fatalf("Expected no error, but got %v", err)
+			}
+
+			if len(winners) != numberOfWinners {
+				t.Fatalf("Expected %d winners, but got %d", numberOfWinners, len(winners))
+			}
+
+			for _, winner := range winners {
+				if !containsRecord(t, records, winner) {
+					t.Errorf("Winners not found in original records")
+				}
+			}
 		}
 	})
 }
