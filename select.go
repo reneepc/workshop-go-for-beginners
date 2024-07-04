@@ -24,3 +24,18 @@ func SelectRandomEntries_Alt(records [][]string, numberOfWinners int) ([][]strin
 
 	return selected, nil
 }
+
+func RemoveDuplicates(records [][]string) [][]string {
+	uniqueRecords := make(map[string]bool)
+	deduplicated := [][]string{}
+
+	for _, record := range records {
+		email := record[0]
+		if _, exists := uniqueRecords[email]; !exists {
+			uniqueRecords[email] = true
+			deduplicated = append(deduplicated, record)
+		}
+	}
+
+	return deduplicated
+}
