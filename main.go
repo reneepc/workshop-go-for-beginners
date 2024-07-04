@@ -13,6 +13,14 @@ func main() {
 		log.Fatalf("Error parsing csv: %v", err)
 	}
 
+	if len(records) <= 1 {
+		log.Fatalf("Not enough records to select winners")
+	}
+
+	if numberOfWinners > len(records) {
+		log.Fatalf("Number of winners is greater than number of records")
+	}
+
 	winners, err := SelectRandomEntries(records, numberOfWinners)
 	if err != nil {
 		log.Fatalf("Error selecting winners: %v", err)
