@@ -26,4 +26,7 @@ func main() {
 		log.Fatalf("Error selecting winners: %v", err)
 	}
 
+	for _, winner := range winners {
+		log.Printf("Winner: %v", winner)
+	}
 }
