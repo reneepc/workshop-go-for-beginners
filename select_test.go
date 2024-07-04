@@ -178,6 +178,62 @@ func FuzzSelectRandomEntriesAlt(f *testing.F) {
 	})
 }
 
+func TestRemoveDuplicates(t *testing.T) {
+	tests := map[string]struct {
+		input    [][]string
+		expected [][]string
+	}{
+		"No duplicates": {
+			input:    [][]string{{"Renê Cardozo", "rene.epcrdz@gmail.com"}, {"Maria Silva", "maria.silva@example.com"}},
+			expected: [][]string{{"Renê Cardozo", "rene.epcrdz@gmail.com"}, {"Maria Silva", "maria.silva@example.com"}},
+		},
+		"All duplicates": {
+			input: [][]string{{"Renê Cardozo", "rene.epcrdz@gmail.com"}, {"Renê Cardozo", "rene.epcrdz@gmail.com"},
+				{"Renê Cardozo", "rene.epcrdz@gmail.com"}, {"Renê Cardozo", "rene.epcrdz@gmail.com"},
+				{"Renê Cardozo", "rene.epcrdz@gmail.com"}},
+			expected: [][]string{{"Renê Cardozo", "rene.epcrdz@gmail.com"}},
+		},
+		"One duplicates": {
+			input:    [][]string{{"Renê Cardozo", "rene.epcrdz@gmail.com"}, {"Maria Silva", "maria.silva@example.com"}, {"Renê Cardozo", "rene.epcrdz@gmail.com"}},
+			expected: [][]string{{"Renê Cardozo", "rene.epcrdz@gmail.com"}, {"Maria Silva", "maria.silva@example.com"}},
+		},
+		"Empty input": {
+			input:    [][]string{},
+			expected: [][]string{},
+		},
+		"Single record": {
+			input:    [][]string{{"Renê Cardozo", "rene.epcrdz@gmail.com"}},
+			expected: [][]string{{"Renê Cardozo", "rene.epcrdz@gmail.com"}},
+		},
+		"Multiple duplicates": {
+			input: [][]string{
+				{"Renê Cardozo", "rene.epcrdz@gmail.com"},
+				{"Maria Silva", "maria.silva@example.com"},
+				{"João Souza", "joao.souza@example.com"},
+				{"Renê Cardozo", "rene.epcrdz@gmail.com"},
+				{"Maria Silva", "maria.silva@example.com"},
+				{"Ana Pereira", "ana.pereira@example.com"},
+				{"João Souza", "joao.souza@example.com"},
+			},
+			expected: [][]string{
+				{"Renê Cardozo", "rene.epcrdz@gmail.com"},
+				{"Maria Silva", "maria.silva@example.com"},
+				{"João Souza", "joao.souza@example.com"},
+				{"Ana Pereira", "ana.pereira@example.com"},
+			},
+		},
+	}
+
+	for name, tt := range tests {
+		t.Run(name, func(t *testing.T) {
+			result := RemoveDuplicates(tt.input)
+			if !equal2DSlices(t, result, tt.expected) {
+				t.Errorf("RemoveDuplicates() = %v, want %v", result, tt.expected)
+			}
+		})
+	}
+}
+
 func containsRecord(t *testing.T, records [][]string, record []string) bool {
 	t.Helper()
 
@@ -187,4 +243,20 @@ func containsRecord(t *testing.T, records [][]string, record []string) bool {
 		}
 	}
 	return false
+}
+
+func equal2DSlices(t *testing.T, a, b [][]string) bool {
+	t.Helper()
+
+	if len(a) != len(b) {
+		return false
+	}
+
+	for i := range a {
+		if !slices.Equal(a[i], b[i]) {
+			return false
+		}
+	}
+
+	return true
 }
