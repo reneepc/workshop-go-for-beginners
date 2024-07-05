@@ -1,15 +1,18 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 )
 
 func main() {
-	userCsvFile := "data/large_users_unfair.csv"
-	numberOfWinners := 6
+	userCsvFile := flag.String("file", "data/large_users.csv", "Path to the user CSV file")
+	numberOfWinners := flag.Int("winners", 6, "Number of winners to select")
 
-	records, err := ParseCsvFile(userCsvFile)
+	flag.Parse()
+
+	records, err := ParseCsvFile(*userCsvFile)
 	if err != nil {
 		log.Fatalf("Error parsing CSV file: %v", err)
 	}
@@ -18,7 +21,7 @@ func main() {
 		log.Fatalf("Not enough records to select winners")
 	}
 
-	winners, err := SelectRandomEntries(records, numberOfWinners)
+	winners, err := SelectRandomEntries(records, *numberOfWinners)
 	if err != nil {
 		log.Fatalf("Error selecting winners: %v", err)
 	}
