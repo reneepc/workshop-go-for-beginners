@@ -1,4 +1,14 @@
-# Workshop para iniciantes - Microsoft Reactor - Golang SP
+<p align="center">
+  <a href="" rel="noopener">
+    <img width="600px" height="220px" src="logo.png" alt="Golang SP Logo">
+  </a>
+</p>
+
+<h2 align="center">Workshop para iniciantes - Microsoft Reactor - Golang SP</h2>
+
+<p align="center"> 
+    <br> 
+</p>
 
 ## Instalação de dependências
 
