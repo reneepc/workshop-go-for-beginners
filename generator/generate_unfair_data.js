@@ -1,9 +1,10 @@
 const faker = require('faker-br');
 const fs = require('fs');
+const path = require('path');
 
 const numRecords = 10000;
 const repeatedEntries = 5000;
-const outputPath = 'data/large_users_unfair.csv';
+const outputPath = 'testdata/large_users_unfair.csv';
 
 const headers = 'Email,Name,Telephone,CPF,Address\n';
 
@@ -25,16 +26,20 @@ const generateSpecificUser = () => {
     return `${email},${name},${telephone},${cpf},${address}\n`;
 };
 
-fs.writeFileSync(outputPath, headers);
+const generateUnfairData = () => {
+    const outputDir = path.dirname(outputPath);
+    if (!fs.existsSync(outputDir)) {
+        fs.mkdirSync(outputDir);
+    }
 
-for (let i = 0; i < repeatedEntries; i++) {
-    const user = generateSpecificUser();
-    fs.appendFileSync(outputPath, user);
-}
+    fs.writeFileSync(outputPath, headers);
 
-for (let i = 0; i < numRecords - repeatedEntries; i++) {
-    const user = generateUser();
-    fs.appendFileSync(outputPath, user);
-}
+    for (let i = 0; i < numRecords; i++) {
+        const user = generateUser();
+        fs.appendFileSync(outputPath, user);
+    }
 
-console.log(`Generated ${numRecords} records in ${outputPath}`);
+    console.log(`Generated ${numRecords} records in ${outputPath}`);
+};
+
+module.exports = generateUnfairData;
