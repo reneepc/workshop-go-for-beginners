@@ -9,6 +9,10 @@ build:
 run: build
 	./app
 
+fuzz: 
+	go test -fuzz=Fuzz -fuzztime=60s -parallel=4
+
+
 generate: 
 	@node generator
 
