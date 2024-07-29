@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const numRecords = 10000;
-const repeatedEntries = 5000;
+const specificUserRatio = 0.5; // Approximate ratio for the specific user
 const outputPath = 'testdata/large_users_unfair.csv';
 
 const headers = 'Email,Name,Telephone,CPF,Address\n';
@@ -34,12 +34,25 @@ const generateUnfairData = () => {
 
     fs.writeFileSync(outputPath, headers);
 
+    let specificUserCount = 0;
+    let randomUserCount = 0;
+
     for (let i = 0; i < numRecords; i++) {
-        const user = generateUser();
+        const useSpecificUser = Math.random() < specificUserRatio && specificUserCount < numRecords * specificUserRatio;
+        const user = useSpecificUser ? generateSpecificUser() : generateUser();
+
         fs.appendFileSync(outputPath, user);
+
+        if (useSpecificUser) {
+            specificUserCount++;
+        } else {
+            randomUserCount++;
+        }
     }
 
     console.log(`Generated ${numRecords} records in ${outputPath}`);
+    console.log(`Specific User Records: ${specificUserCount}`);
+    console.log(`Random User Records: ${randomUserCount}`);
 };
 
 module.exports = generateUnfairData;
