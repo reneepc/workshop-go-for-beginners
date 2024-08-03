@@ -5,15 +5,15 @@ const path = require('path');
 const numRecords = 10000;
 const outputPath = 'testdata/large_users.csv';
 
-const headers = 'Email,Name,Telephone,CPF,Address\n';
+const headers = 'Email,Name,Phone,CPF,Address\n';
 
 const generateUser = () => {
     const email = faker.internet.email();
     const name = faker.name.findName();
-    const telephone = faker.phone.phoneNumber();
+    const phone = faker.phone.phoneNumber();
     const cpf = faker.br.cpf();
     const address = faker.address.streetAddress();
-    return `${email},${name},${telephone},${cpf},${address}\n`;
+    return `${email},${name},${phone},${cpf},${address}\n`;
 };
 
 const generateFairData = () => {

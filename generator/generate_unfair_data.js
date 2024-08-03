@@ -6,24 +6,24 @@ const numRecords = 10000;
 const specificUserRatio = 0.5; // Approximate ratio for the specific user
 const outputPath = 'testdata/large_users_unfair.csv';
 
-const headers = 'Email,Name,Telephone,CPF,Address\n';
+const headers = 'Email,Name,Phone,CPF,Address\n';
 
 const generateUser = () => {
     const email = faker.internet.email();
     const name = faker.name.findName();
-    const telephone = faker.phone.phoneNumber();
+    const phone = faker.phone.phoneNumber();
     const cpf = faker.br.cpf();
     const address = faker.address.streetAddress();
-    return `${email},${name},${telephone},${cpf},${address}\n`;
+    return `${email},${name},${phone},${cpf},${address}\n`;
 };
 
 const generateSpecificUser = () => {
     const email = 'rene.epcrdz@gmail.com';
     const name = 'Renê Cardozo';
-    const telephone = '(11) 99999-9999';
+    const phone = '(11) 99999-9999';
     const cpf = '12345678909';
-    const address = '302 Avenida Jurucê';
-    return `${email},${name},${telephone},${cpf},${address}\n`;
+    const address = '225 Rua Jaceru';
+    return `${email},${name},${phone},${cpf},${address}\n`;
 };
 
 const generateUnfairData = () => {
