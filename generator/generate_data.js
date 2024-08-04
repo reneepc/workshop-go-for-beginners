@@ -2,8 +2,6 @@ import faker from 'faker-br';
 import fs from 'fs';
 import path from 'path';
 
-const headers = 'Email,Name,Phone,CPF,Address\n';
-
 const generateUser = () => {
     const email = faker.internet.email();
     const name = faker.name.findName();
@@ -27,8 +25,6 @@ const generateUsers = (numRecords, outputPath, specificUserRatio) => {
     if (!fs.existsSync(outputDir)) {
         fs.mkdirSync(outputDir);
     }
-
-    fs.writeFileSync(outputPath, headers);
 
     let specificUserCount = 0;
     let randomUserCount = 0;
