@@ -43,6 +43,6 @@ Para garantir que tudo está instalado corretamente, execute os seguintes comand
     go version
     git --version
     code --version
-``
+```
 
 Se todas as versões forem exibidas corretamente, você está pronto para o workshop!
