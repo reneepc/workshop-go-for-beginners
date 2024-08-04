@@ -1,10 +1,6 @@
-const faker = require('faker-br');
-const fs = require('fs');
-const path = require('path');
-
-const numRecords = 10000;
-const specificUserRatio = 0.5; // Approximate ratio for the specific user
-const outputPath = 'testdata/large_users_unfair.csv';
+import faker from 'faker-br';
+import fs from 'fs';
+import path from 'path';
 
 const headers = 'Email,Name,Phone,CPF,Address\n';
 
@@ -26,7 +22,7 @@ const generateSpecificUser = () => {
     return `${email},${name},${phone},${cpf},${address}\n`;
 };
 
-const generateUnfairData = () => {
+const generateUsers = (numRecords, outputPath, specificUserRatio) => {
     const outputDir = path.dirname(outputPath);
     if (!fs.existsSync(outputDir)) {
         fs.mkdirSync(outputDir);
@@ -55,4 +51,4 @@ const generateUnfairData = () => {
     console.log(`Random User Records: ${randomUserCount}`);
 };
 
-module.exports = generateUnfairData;
+export default generateUsers;

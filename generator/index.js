@@ -1,10 +1,10 @@
-const generateFairData = require('./generate_fair_data');
-const generateUnfairData = require('./generate_unfair_data');
+import generateUsers from './generate_data.js';
 
 function runGenerators() {
     try {
-        generateFairData();
-        generateUnfairData();
+        generateUsers(10, 'testdata/users_001.csv', 0);
+        generateUsers(10000, 'testdata/users_002.csv', 0);
+        generateUsers(10000, 'testdata/users.csv', 0.4);
     } catch (error) {
         console.error(`Error running generators: ${error}`);
     }
