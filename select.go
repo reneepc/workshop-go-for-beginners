@@ -45,6 +45,25 @@ func SelectRandomEntries_Alt(records [][]string, numberOfWinners int) ([][]strin
 	return selected, nil
 }
 
+func SelectRandomEntries_WithoutCopying(records [][]string, numberOfWinners int) ([][]string, error) {
+	if numberOfWinners > len(records) {
+		return nil, errors.New("number of winners greater than number of records")
+	}
+
+	if numberOfWinners < 0 {
+		return nil, errors.New("negative number of winners")
+	}
+
+	selected := make([][]string, 0, numberOfWinners)
+	for len(selected) < numberOfWinners {
+		i := rand.IntN(len(records))
+		selected = append(selected, records[i])
+		records = append(records[:i], records[i+1:]...)
+	}
+
+	return selected, nil
+}
+
 func RemoveDuplicates(records [][]string) [][]string {
 	uniqueRecords := make(map[string]bool)
 	deduplicated := [][]string{}
